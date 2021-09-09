@@ -32,7 +32,7 @@
                 $err .= "Room type cannot be empty";
             }else{
                 if(!preg_match("/^[a-zA-Z0-9- ]{3,50}$/", $room_type)) {
-                    $err .= "Must be alphanumeric 3-50 chars<br>";
+                    $err .= "Room type must be alphanumeric - 3-50 chars<br>";
                 }
             }
 
