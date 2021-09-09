@@ -14,10 +14,18 @@ class Rooms extends Dbh {
         }
     }
 
-    public function find($room_num) {
+    public function find_room($room_num) {
         $sql = "SELECT * FROM `rooms` WHERE room_num = ?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$room_num]);
+        $result = $stmt->fetch();
+        return $result;
+    }
+
+    public function find($id) {
+        $sql = "SELECT * FROM `rooms` WHERE id = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$id]);
         $result = $stmt->fetch();
         return $result;
     }

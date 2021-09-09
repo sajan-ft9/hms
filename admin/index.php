@@ -17,7 +17,7 @@
             if(empty($room_num)) {
                 $err .= "Room number required<br>";
             }else{
-                if($rooms->find($room_num) >0 ){
+                if($rooms->find_room($room_num) > 0 ){
                     $err .= "Room number already exists.<br>";
                 }
                 if($room_num < 0){
@@ -130,7 +130,7 @@
                     <td><?=$room['room_type']?></td>
                     <td><?=$room['room_price']?></td>
                     <td><?=$room['available_rooms']?></td>
-                    <td><a class="btn btn-warning" href="editRoom.php?room_num=<?=$room['room_num']?>">Edit</a></td>
+                    <td><a class="btn btn-warning" href="editRoom.php?id=<?=$room['id']?>">Edit</a></td>
                     <td><a class="btn btn-danger" href="delete.process.php?send=del&id=<?=$room['id']?>" onClick="return confirm('Do you want to delete??')">Delete</a></td>
                 </tr>
         <?php

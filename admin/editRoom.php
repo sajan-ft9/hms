@@ -3,12 +3,12 @@
     require_once "../includes/init.php";
 
     $rooms = new Rooms();
-    if($rooms->find($_GET['room_num']) == 0) {
+    if($rooms->find($_GET['id']) == 0) {
         echo "<script>alert('No such room'); window.location = 'index.php';</script>";
         die;
     }
    
-    $room = $rooms->find($_GET['room_num']);
+    $room = $rooms->find($_GET['id']);
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
 
@@ -19,6 +19,22 @@
             $room_type = clean($_POST['room_type']);
             $price = clean($_POST['price']);
             $av_room = clean($_POST['available']);
+
+            if(empty($room_num)) {
+                $err .= "Room number required<br>";
+            }else{
+                if( $room['room_num'] != $room_num ){
+                    if($rooms->find_room($room_num) > 0 ){
+                        $err .= "Room number already exists.<br>";
+                    }
+                }
+                if($room_num < 0){
+                  $err .= "Room number cannot be negative.<br>";
+                }
+                elseif($room_num > 100000000) {
+                  $err .= "No valid room number<br>";
+                }
+            }    
 
             if(empty($room_type)) {
                 $err .= "Room type cannot be empty";
@@ -66,9 +82,10 @@
 
 <h2><u>Update Room</u></h2>
 
-<form action="editRoom.php?room_num=<?=$room['room_num']?>" method="POST">
+<form action="editRoom.php?id=<?=$room['id']?>" method="POST">
             <div class="form-group">
-                <input type="hidden" name="room_num" value="<?=$room['room_num']?>">
+                <label for="">Room No.</label>
+                <input type="number" name="room_num" class="form-control" value="<?=$room['room_num']?>" required>
                 <label for="">Room Type</label>
                 <input type="text" name="room_type" class="form-control" value="<?=$room['room_type']?>" required>            
                 <label for="">Price</label>
