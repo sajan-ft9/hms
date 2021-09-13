@@ -1,3 +1,9 @@
+<?php 
+require_once "../includes/init.php";
+
+$check = checkLogin();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,7 +38,7 @@
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -47,7 +53,15 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link" href="rooms.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Rooms
+                            </a>
+                            <a class="nav-link" href="roomnumber.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Room Number
+                            </a>
+                            <!-- <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Layouts
@@ -98,7 +112,7 @@
                                 Tables
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
                         Admin

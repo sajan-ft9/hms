@@ -6,7 +6,7 @@ class Dbh {
     private $host = "localhost";
     private $user = "root";
     private $pwd = "";
-    private $dbName = "peace";
+    private $dbName = "peaceresort";
 
     protected function connect () {
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbName;
