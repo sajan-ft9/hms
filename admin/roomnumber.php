@@ -41,12 +41,38 @@
             }
 
         }
+
+
+        if(isset($_POST['toggleBook'])) {
+        
+          $err = "";
+          $book = $_POST['book'];
+          $roomnumber = $_POST['roomnumber'];
+          if(empty($book)){
+            $err .= "Empty.<br>";
+          }
+          if(empty($roomnumber)){
+            $err .= "Empty.<br>";
+          }
+          if(empty($err)){
+            $roomNumber->toggleBook($book, $roomnumber);
+            echo "<script>window.location.replace('reloader.php?loc=roomnumber.php')</script>";
+            die;
+          }
+          else{
+            echo $err;
+          }
+      }
     }        
 
 ?>
 
 <h2><u>Dashboard</u></h2>
 
+<!-- Admin -->
+<?php
+if($_SESSION['role'] === 'admin'):
+?>
 <!-- Button trigger modal -->
 <div class="text-center">
     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#roomNumber">
@@ -135,5 +161,88 @@
   </tbody>
 </table>
 </div>
+
+<?php
+endif;
+?>
+
+<!-- end Admin -->
+
+<!-- Reception Manager -->
+
+<?php
+if($_SESSION['role'] === 'reception' || $_SESSION['role'] === 'manager'):
+?>
+<div class="mt-2">
+    <h4>All Rooms</h4>
+    <table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Room No.</th>
+      <th scope="col">Room Type</th>
+      <th scope="col">Available</th>
+      <th colspan="2" scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      <?php 
+        if($roomNumber->getAll() > 0):
+            foreach($roomNumber->getAll() as $room): ?>
+                 <tr>
+                    <th scope="row"><?=$room['roomnumber']?></th>
+                    <td><?=$room['roomtype']?></td>
+                    <?php 
+                        if($room['isempty'] == "true"):?>
+                            <td><i class="fa fa-check text-success" aria-hidden="true"></i></td>
+                    <?php
+                        else:?>
+                            <td><i class="fa fa-times text-danger" aria-hidden="true"></i></td>
+                    <?php
+                        endif;
+                    ?>
+                    <?php if($room['isempty'] == 'true'):?>
+                      <td>
+                        <form action="" method="POST">
+                          <input type="hidden" name="roomnumber" value="<?=$room['roomnumber']?>">
+                          <input name="book" type="hidden" value="false">
+                          <button class="btn btn-success" type="submit" name="toggleBook">Book</button>
+                        </form>
+                      </td>
+                    <?php
+                      else:
+                        if($room['isempty'] == 'false'):?>
+                          <td>
+                            <form action="" method="POST">
+                              <input type="hidden" name="roomnumber" value="<?=$room['roomnumber']?>">
+                              <input name="book" type="hidden" value="true">
+                              <button class="btn btn-danger" type="submit" name="toggleBook">Checkout</button>
+                            </form>
+                          </td>
+                        <?php
+                        endif;
+                    ?>
+                    <?php    
+                    endif; 
+                    ?>
+                    <td></td>
+                </tr>
+        <?php
+          endforeach;
+        else:
+        ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Alert: </strong> You should add some rooms first.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <?php
+        endif;
+      ?>
+  </tbody>
+</table>
+</div>
+
+<?php endif; ?>
+
+<!-- end Reception/manager -->
 
 <?php include_once "layout/footer.php" ?>

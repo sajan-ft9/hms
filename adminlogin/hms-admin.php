@@ -2,7 +2,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <div class="container login-container">
-<a class="btn btn-primary mt-3" href="index.php">Home</a>
+<a class="btn btn-primary mt-3" href="../index.php">Home</a>
 
             <div class="row">
                 <div class="col-md-6 m-auto login-form-1">
@@ -13,6 +13,14 @@
                         </div>
                         <div class="form-group mt-2">
                             <input class="form-control" type="password" name="password" class="form-control" placeholder="Your Password *" value="" required/>
+                        </div>
+                        <div class="form-group mt-2">
+                            <select class="form-control" name="role" id="" required>
+                                <option value="">Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="reception">Reception</option>
+                                <option value="manager">Manager</option>
+                            </select>
                         </div>
                         <div class="form-group mt-2">
                             <input class="btn btn-info" type="submit" name="adminlogin" class="btnSubmit" value="Login" />
@@ -32,6 +40,7 @@
             $err = "";
             $username = clean($_POST['username']);
             $password = clean($_POST['password']);
+            $role = clean($_POST['role']);
 
             if(empty($username)){
                 $err .= "Username required.<br>";
@@ -40,14 +49,18 @@
                 $err .= "Password required.<br>";
             }
 
+            if(empty($role)){
+                $err .= "Role required.<br>";
+            }
+
             if(empty($err)){
                 $admin = new Admin();
                 
                 if($admin->get($username) > 0){
                     $verify = $admin->get($username);
-                    if($verify['password'] === $password && $verify['role'] === "admin"){
+                    if($verify['password'] === $password && $verify['role'] === $role){
                         session_start();
-                        $_SESSION['logged'] = "Admin";
+                        $_SESSION['logged'] = $verify['username'];
                         $_SESSION['role'] = $verify['role'];
 
                         header("Location:../admin/index.php");

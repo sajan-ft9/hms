@@ -42,6 +42,12 @@ class RoomNumber extends Dbh {
         $stmt->execute([$roomtype, $isempty, $roomnumber]);
     }
 
+    public function toggleBook($book, $roomnumber){
+        $sql = "UPDATE `roomnumber` SET isempty = ? WHERE roomnumber = ?";
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$book, $roomnumber]);
+    }
+
     public function delete($roomnumber) {
         $sql = "DELETE FROM roomnumber WHERE roomnumber = ?";
         $stmt = $this->connect()->prepare($sql);

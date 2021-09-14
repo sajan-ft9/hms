@@ -129,7 +129,7 @@
 
 <div class="mt-2">
     <h4>All Rooms</h4>
-   
+</div>   
 <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
     <?php 
         $rooms = new Rooms();
@@ -145,10 +145,12 @@
                         <p class="text-end">Price: <?=$room['room_price']?></p>
                         <p class="text-end">Total rooms: <?=$room['total_rooms']?></p>
                     </div>
+                    <?php if($_SESSION['role'] === "admin"):?>
                     <div class="card-footer">
                         <small><a class="btn btn-warning" href="editRooms.php?id=<?=$room['id']?>">Edit</a></small>
                         <small><a class="btn btn-danger" href="delete.process.php?send=del&id=<?=$room['id']?>&name=<?=$room['room_photo']?>" onClick="return confirm('Do you want to delete??')">Delete</a></small>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>   
         <?php endforeach; ?>
@@ -164,6 +166,7 @@
       endif;
     ?>
 </div>
+
 
 
 <?php include_once "layout/footer.php" ?>
