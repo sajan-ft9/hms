@@ -54,5 +54,9 @@ class RoomNumber extends Dbh {
         $stmt->execute([$roomnumber]);
     }
 
+    public function Available(){
+        
+    }
+
 
 }

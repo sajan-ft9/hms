@@ -1,8 +1,7 @@
 <?php 
-
 include_once "layout/header.php";
 require_once "../includes/init.php";
-
+if($_SESSION['role'] === 'admin'){
 $rooms = new Rooms();
 $roomNumber = new RoomNumber();
 
@@ -77,4 +76,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             </div>      
         </form>
 
-<?php include_once "layout/footer.php"; ?>
+<?php include_once "layout/footer.php"; 
+}else{
+    header("location:roomnumber.php");
+    die;
+}?>

@@ -10,6 +10,8 @@ if($_SESSION['role'] === 'admin'){
             $err = "";
             $username = clean($_POST['username']);
             $password = clean($_POST['password']);
+            $confirmpass = clean($_POST['confirmpass']);
+            $hash = password_hash($password, PASSWORD_DEFAULT);
             $role = clean($_POST['role']);
 
             if(empty($username)){
@@ -27,12 +29,15 @@ if($_SESSION['role'] === 'admin'){
                 $err .= "Password required.<br>";
             }else{
                 if(!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,20}$/',$password)){
-                    $err .= "Password must contain t least 8 characters<br>
+                    $err .= "Password must contain at least 8 characters<br>
                     <li>at least one lowercase char</li>
                     <li>at least one uppercase char</li>
                     <li>at least one digit</li>
                     <li>at least one speacial character</li>"
                     ;
+                }
+                if($password !== $confirmpass){
+                    $err .= "Passwords do not match.<br>";
                 }
             }
 
@@ -42,7 +47,14 @@ if($_SESSION['role'] === 'admin'){
 
             if(empty($err)){
 
-                $admin->addRole($username, $password, $role);
+                $admin->addRole($username, $hash, $role);
+                echo "
+              <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                <strong>Role added successfully.</strong>
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+              </div>
+                ";
+
             }
             else{
                 echo "
@@ -65,6 +77,8 @@ if($_SESSION['role'] === 'admin'){
         <input type="text" class="form-control" name="username" required>
         <label for="">Password</label>
         <input type="password" class="form-control" name="password" required>
+        <label for="">Confirm Password</label>
+        <input type="password" class="form-control" name="confirmpass" required>
         <label for="">Role</label>
         <select name="role" id="" class="form-control" required>
             <option value="">Select a Role</option>

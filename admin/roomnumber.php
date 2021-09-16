@@ -168,10 +168,10 @@ endif;
 
 <!-- end Admin -->
 
-<!-- Reception Manager -->
+<!-- Reception -->
 
 <?php
-if($_SESSION['role'] === 'reception' || $_SESSION['role'] === 'manager'):
+if($_SESSION['role'] === 'reception'):
 ?>
 <div class="mt-2">
     <h4>All Rooms</h4>
@@ -243,6 +243,59 @@ if($_SESSION['role'] === 'reception' || $_SESSION['role'] === 'manager'):
 
 <?php endif; ?>
 
-<!-- end Reception/manager -->
+<!-- end Reception -->
+
+<!-- Reception -->
+
+<?php
+if($_SESSION['role'] === 'manager'):
+?>
+<div class="mt-2">
+    <h4>All Rooms</h4>
+    <table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Room No.</th>
+      <th scope="col">Room Type</th>
+      <th scope="col">Available</th>
+    </tr>
+  </thead>
+  <tbody>
+      <?php 
+        if($roomNumber->getAll() > 0):
+            foreach($roomNumber->getAll() as $room): ?>
+                 <tr>
+                    <th scope="row"><?=$room['roomnumber']?></th>
+                    <td><?=$room['roomtype']?></td>
+                    <?php 
+                        if($room['isempty'] == "true"):?>
+                            <td><i class="fa fa-check text-success" aria-hidden="true"></i></td>
+                    <?php
+                        else:?>
+                            <td><i class="fa fa-times text-danger" aria-hidden="true"></i></td>
+                    <?php
+                        endif;
+                    ?>
+                </tr>
+        <?php
+          endforeach;
+        else:
+        ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Alert: </strong> You should add some rooms first.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <?php
+        endif;
+      ?>
+  </tbody>
+</table>
+</div>
+
+<?php endif; ?>
+
+<!-- end manager -->
+
+
 
 <?php include_once "layout/footer.php" ?>

@@ -1,6 +1,7 @@
 <?php 
     include_once "layout/header.php";
     require_once "../includes/init.php";
+    if($_SESSION['role'] === "admin"){
 
     $rooms = new Rooms();
     if($rooms->find($_GET['id']) == 0) {
@@ -128,4 +129,8 @@
 </form>                
 
 
-<?php include_once "layout/footer.php"; ?>
+<?php include_once "layout/footer.php"; 
+}else{
+header("location:rooms.php");
+die;
+}?>

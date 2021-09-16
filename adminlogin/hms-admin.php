@@ -58,7 +58,7 @@
                 
                 if($admin->get($username) > 0){
                     $verify = $admin->get($username);
-                    if($verify['password'] === $password && $verify['role'] === $role){
+                    if(password_verify($password, $verify['password']) && $verify['role'] === $role){
                         session_start();
                         $_SESSION['logged'] = $verify['username'];
                         $_SESSION['role'] = $verify['role'];

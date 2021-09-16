@@ -3,7 +3,7 @@
     require_once "../includes/init.php";
 
     $rooms = new Rooms();
-    
+    if($_SESSION['role'] === "admin"){
     if($_SERVER['REQUEST_METHOD'] == "POST"){
 
         if(isset($_POST['insert'])) {
@@ -82,18 +82,21 @@
             }
 
         }
-    }    
+    }   
+  } 
 
 ?>
 
 <h2><u>Dashboard</u></h2>
 
 <!-- Button trigger modal -->
+<?php if($_SESSION['role'] === "admin"): ?>
 <div class="text-center">
     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#roomsModal">
         Add Rooms
     </button>
 </div>
+<?php endif; ?>
 
 <!-- Modal -->
 <div class="modal fade" id="roomsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -138,7 +141,7 @@
         <?php foreach($rooms->getAll() as $room): ?>
             <div class="col">
                 <div class="card">
-                    <img src="uploads/<?=$room['room_photo']?>" class="card-img-top" alt="image">
+                    <img src="uploads/<?=$room['room_photo']?>" class="card-img-top" alt="image" height="300px">
                     <div class="card-body">
                         <h5 class="card-title"><?=$room['room_name']?></h5>
                         <p class="card-text"><?=$room['room_type']?></p>
