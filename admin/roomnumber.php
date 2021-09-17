@@ -243,9 +243,11 @@ if($_SESSION['role'] === 'reception'):
 
 <?php endif; ?>
 
+<a href="book.php">Book</a>
+
 <!-- end Reception -->
 
-<!-- Reception -->
+<!-- Manager -->
 
 <?php
 if($_SESSION['role'] === 'manager'):
